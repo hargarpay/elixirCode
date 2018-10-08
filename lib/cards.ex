@@ -1,4 +1,11 @@
 defmodule Cards do
+  @moduledoc """
+    Provides methods for creating and handling a deck of cards
+  """
+
+  @doc """
+    Returns a list of strings representing a deck of cards
+  """
   def create_deck do
     values = ["Ace", "Two", "Three", "Four", "Five", "King"]
     suits = ["Spades", "Clubs", "Hearts", "Diamonds"]
@@ -17,22 +24,56 @@ defmodule Cards do
 
   end
 
+  @doc """
+    Shuffle a deck of cards that was pass into it
+  """
+
   def shuffle(deck) do
     Enum.shuffle(deck)
   end
 
+  @doc """
+    Deteremin whether a deck of cards contain a given `card`
+  ## Examples
+
+      iex> deck = Cards.create_deck()
+      iex> Cards.contains?(deck, "Ace of Spades")
+      true
+
+  """
   def contains?(deck, card) do
-    Enum.member?(deck, String.capitalize(card))
+    Enum.member?(deck, card)
   end
+
+  @doc """
+    Divides a deck of cards into hand and the remainders of the deck of cards
+    The `hand_size` indicate the number of cards in the hand
+
+  ## Examples
+
+      iex> deck = Cards.create_deck()
+      iex> {hand, _remainder} = Cards.deal(deck, 1)
+      iex> hand
+      ["Ace of Spades"]
+
+  """
 
   def deal(deck, hand_size) do
     Enum.split(deck, hand_size)
   end
 
+  @doc """
+    Save a deck of cards into file where `filename` is the path to the file
+  """
+
   def save(deck, filename) do
     binary = :erlang.term_to_binary(deck)
     File.write(filename, binary)
   end
+
+  @doc """
+    Load a file indo Erlang where `filename` is the path to the file
+  """
 
   def load(filename) do
     # Solution 1
